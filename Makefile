@@ -4,24 +4,38 @@ NAME=libcstdlist.a
 
 SRC = src/cstd_list.c
 
-CFLAGS 	+= -g2 -Wall -Wextra -fanalyzer
+CFLAGS 	+= -O3 -Ofast -Wall
 
-OBJ=$(SRC:.c=.o)
+CFLAGS_DEBUG += ${CFLAGS} -g2 -fanalyzer -Wextra -Wundef
 
-RM=rm -r
+OBJ=${patsubst %c, %o, ${SRC}}
+OBJ_DEBUG=${patsubst %c, %o_debug, ${SRC}}
+
+RM=rm -rf
+
+%.o: %.c
+	${CC} ${CFLAGS} -c -o $@ $<
+
+%.o_debug: %.c
+	${CC} ${CFLAGS_DEBUG} -c -o $@ $<
 
 all: ${NAME}
 
 ${NAME}: ${OBJ}
 	ar rc $(NAME) $^
 
-tests: ${NAME}
-	gcc tests/main.c -L. -lcstdlist
+debug: ${OBJ_DEBUG}
+	ar rc ${NAME} $^
+
+tests: debug
+	gcc ${CFLAGS_DEBUG} tests/main.c -L. -lcstdlist
 
 clean:
-	${RM} ${OBJ}
+	${RM} ${OBJ} ${OBJ_DEBUG}
 
 fclean: clean
 	${RM} ${NAME} a.out
 
 re: fclean all
+
+.PHONY: all ${NAME} debug tests clean re fclean
