@@ -1,4 +1,4 @@
-#include "cstd_list.h"
+#include "../include/cstd_list.h"
 #include <unistd.h>
 
 int main(int ac, char **av)
@@ -9,7 +9,7 @@ int main(int ac, char **av)
     }
 
     clist *list = new_clist(av[1]);
-    
+
     for (int i = 2; i < ac; ++i) {
         list->push_back(list, av[i]);
     }
