@@ -1,4 +1,6 @@
-#include "./cstd_list.h"
+#include "../include/cstd_list.h"
+#include <string.h>
+#include <unistd.h>
 
 int is_clist_empty(clist *l)
 {
@@ -57,10 +59,8 @@ clist *cstd_list_at(clist *l, size_t index)
 
 clist *cstd_list_pop_back(clist *l)
 {
-    char b = 'p';
     clist *save = l;
 
-    write(1, &b, 1);
     if (is_clist_empty(l)) {
         return (EMPTY_LIST);
     }
@@ -87,10 +87,10 @@ void clist_display(clist *l)
     char *esp = ", ";
 
     while (l != EMPTY_LIST) {
-        write(1, l->data, strlen(l->data));
-        if (l->next == EMPTY_LIST) {
-            break;
+        if (l->data == EMPTY_LIST) {
+            continue;
         }
+        write(1, l->data, strlen(l->data));
         write(1, esp, 2);
         l = l->next;
     }
@@ -118,17 +118,10 @@ clist *new_clist(const char *d)
 // returns freed node number
 int clist_destroy(clist *l)
 {
-    char a = 'a';
-    char b = 'b';
-    char c = 'c';
+    int i = 0;
 
-    size_t i = 0;
     for (i = 0; l != EMPTY_LIST; i++) {
-        if (l->data != NULL) {
-            write(1, &b, 1);
-        }
         l = l->pop_front(l);
-        write(1, &c, 1);
-      }
-      return (i);
+    }
+    return (i);
 }
