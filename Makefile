@@ -4,7 +4,7 @@ NAME=libcstdlist.a
 
 SRC = src/cstd_list.c
 
-CFLAGS 	+= -g2
+CFLAGS 	+= -g2 -Wall -Wextra -fanalyzer
 
 OBJ=$(SRC:.c=.o)
 
@@ -16,7 +16,7 @@ ${NAME}: ${OBJ}
 	ar rc $(NAME) $^
 
 tests: ${NAME}
-	gcc -Wall -g2 tests/main.c -L. -lcstdlist
+	gcc tests/main.c -L. -lcstdlist
 
 clean:
 	${RM} ${OBJ}
