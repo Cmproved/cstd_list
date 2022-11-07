@@ -20,23 +20,26 @@ int cstd_list_length(clist *l)
 
 clist *cstd_list_push_back(clist *l, const char *d)
 {
-    clist *save = l;
+    clist *save = NULL;
 
     if (is_clist_empty(l)) {
         return (EMPTY_LIST);
     }
-    for (; l->next != EMPTY_LIST; l = l->next);
+    save = l;
+    for (; l != EMPTY_LIST; l = l->next);
     l->next = new_clist(d);
-    return (save);
+    l = save;
+    return (l);
 }
 
 clist *cstd_list_push_front(clist *l, const char *d)
 {
-    clist *new_node = new_clist(d);
+    clist *new_node = NULL;
 
     if (is_clist_empty(l)) {
         return (EMPTY_LIST);
     }
+    new_node = new_clist(d);
     if (!new_node) {
         return (l);
     }
@@ -59,11 +62,12 @@ clist *cstd_list_at(clist *l, size_t index)
 
 clist *cstd_list_pop_back(clist *l)
 {
-    clist *save = l;
+    clist *save = NULL;
 
     if (is_clist_empty(l)) {
         return (EMPTY_LIST);
     }
+    save = l;
     for (; l->next != EMPTY_LIST; l = l->next);
     free(l->data);
     return (save);
@@ -71,10 +75,11 @@ clist *cstd_list_pop_back(clist *l)
 
 clist *cstd_list_pop_front(clist *l)
 {
-    clist *save = l->next;
+    clist *save = NULL;
 
     if (is_clist_empty(l))
       return (EMPTY_LIST);
+    save = l->next;
     if (l->data != EMPTY_LIST) {
         free(l->data);
     }
@@ -105,13 +110,17 @@ clist *new_clist(const char *d)
         return (EMPTY_LIST);
     }
     new_node->data = strdup(d);
-    new_node->next = EMPTY_LIST;
+    if (!new_node->data) {
+        free(new_node);
+        return (EMPTY_LIST);
+    }
     new_node->push_back = &cstd_list_push_back;
     new_node->push_front = &cstd_list_push_front;
     new_node->len = &cstd_list_length;
     new_node->pop_back = &cstd_list_pop_back;
     new_node->pop_front = &cstd_list_pop_front;
     new_node->at = &cstd_list_at;
+    new_node->next = EMPTY_LIST;
     return (new_node);
 }
 
