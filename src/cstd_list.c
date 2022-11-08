@@ -20,16 +20,20 @@ int cstd_list_length(clist *l)
 
 clist *cstd_list_push_back(clist *l, const char *d)
 {
-    clist *save = NULL;
+    clist *save = l;
+    clist *tmp = NULL;
 
     if (is_clist_empty(l)) {
         return (EMPTY_LIST);
     }
-    save = l;
-    for (; l != EMPTY_LIST; l = l->next);
-    l->next = new_clist(d);
-    l = save;
-    return (l);
+    for (; l->next != EMPTY_LIST; l = l->next);
+    tmp = new_clist(d);
+    if (!tmp) {
+        free(tmp);
+        return (EMPTY_LIST);
+    }
+    l->next = tmp;
+    return (save);
 }
 
 clist *cstd_list_push_front(clist *l, const char *d)
@@ -104,8 +108,12 @@ void clist_display(clist *l)
 
 clist *new_clist(const char *d)
 {
-    clist *new_node = malloc(sizeof(clist));
+    clist *new_node = NULL;
 
+    if (!d) {
+        return (EMPTY_LIST);
+    }
+    new_node = malloc(sizeof(clist));
     if (!new_node) {
         return (EMPTY_LIST);
     }
