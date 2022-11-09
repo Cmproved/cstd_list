@@ -1,11 +1,11 @@
 # cstd_list
-C Linked lists can be hard sometimes. Why not just having a std::list that allocates everything for us ? 
-  
-Here is an implementation of the std::list<std::string> c++ equivalent (for `char *` only)   
+C Linked lists can be hard sometimes. Why not just having a std::list that allocates everything for us ?
+
+Here is an implementation of the std::list\<std::string\> c++ equivalent (for `char *` only)
 
 ## Usage
 
-Here is a minimal usage example :  
+Here is a minimal usage example :
 
 ```c
 #include "cstd_list.h"
@@ -19,7 +19,7 @@ int main(int ac, char **av)
     }
 
     clist *list = new_clist(av[1]);
-    
+
     for (int i = 2; i < ac; ++i) {
         list->push_back(list, av[i]);
     }
@@ -29,7 +29,7 @@ int main(int ac, char **av)
     return (0);
 }
 ```
-  
+
 ```bash
 >> ./a.out hello everyone I love C
 hello, everyone, I, love, C
@@ -37,7 +37,7 @@ hello, everyone, I, love, C
 
 ## Methods
 
-Those are the methods integrated in a `clist` object :  
+Those are the methods integrated in a `clist` object :
 ```c
 // adds data to the end of current_list
 clist *push_back(clist *current_list, const char *data);
@@ -57,8 +57,8 @@ clist *pop_front(clist *current_list);
 // removes the back node of current_list
 clist *pop_back(clist *current_list);
 ```
-  
-Here are the functions provided by the lib :  
+
+Here are the functions provided by the lib :
 ```c
 // creates a new list with the first node containing data
 clist *new_clist(const char *data);
@@ -69,13 +69,13 @@ int clist_destroy(clist *current_list);
 // display each node of current_list
 void clist_display(clist *current_list);
 
-// returns true if current_list is empty 
+// returns true if current_list is empty
 int is_clist_empty(clist *current_list);
 ```
 
 ## The structure
 
-Here is the main `clist` object :  
+Here is the main `clist` object :
 ```c
 typedef struct cstd_list_s {
     // variables
@@ -87,7 +87,7 @@ typedef struct cstd_list_s {
 } clist;
 ```
 
-To access the data, just call the `data` property :  
+To access the data, just call the `data` property :
 ```c
 int main(void) {
     char *a = "hello";

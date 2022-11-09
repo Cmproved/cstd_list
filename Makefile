@@ -1,6 +1,6 @@
 CC=gcc
 
-NAME=libcstdlist.a
+NAME=libcstd_string_list.a
 
 SRC = src/cstd_list.c
 

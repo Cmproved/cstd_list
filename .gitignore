@@ -2,6 +2,8 @@
 *.d
 
 # Object files
+*.a
+tags
 *.o
 *.ko
 *.obj
